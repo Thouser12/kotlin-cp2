@@ -36,10 +36,6 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
 
     /**
      * Cria novas views (invocado pelo layout manager do RecyclerView).
-     *
-     * @param parent O ViewGroup no qual essas novas views serão adicionadas após serem vinculadas a um adaptador.
-     * @param viewType O tipo de view da nova View.
-     * @return Um novo ViewHolder que contém uma View do tipo especificado.
      */
     @Override
     public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

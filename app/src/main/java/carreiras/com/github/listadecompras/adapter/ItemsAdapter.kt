@@ -1,50 +1,111 @@
-package carreiras.com.github.listadecompras.adapter
+package carreiras.com.github.listadecompras.adapter;
 
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.ImageButton
-import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView
-import carreiras.com.github.listadecompras.R
-import carreiras.com.github.listadecompras.model.ItemModel
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.TextView;
+import androidx.recyclerview.widget.RecyclerView;
+import carreiras.com.github.listadecompras.R;
+import carreiras.com.github.listadecompras.model.ItemModel;
 
-class ItemsAdapter : RecyclerView.Adapter<ItemsAdapter.ItemViewHolder>() {
+/**
+ * Adaptador para o RecyclerView que gerencia uma lista de ItemModel.
+ * Este adaptador é responsável por fornecer as views e vincular os dados dos itens
+ * a essas views dentro de um RecyclerView.
+ */
+public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHolder> {
 
-    private val items = mutableListOf<ItemModel>()
+    private final List<ItemModel> items = new ArrayList<>();
 
-    fun addItem(newItem: ItemModel) {
-        items.add(newItem)
-        notifyDataSetChanged()
+    /**
+     * Adiciona um novo item à lista e notifica o RecyclerView de que os dados foram alterados.
+     * 
+     * @param newItem O novo item a ser adicionado na lista.
+     */
+    public void addItem(ItemModel newItem) {
+        items.add(newItem);
+        notifyDataSetChanged();
     }
 
-    fun removeItem(item: ItemModel) {
-        items.remove(item)
-        notifyDataSetChanged()
+    /**
+     * Remove um item da lista e notifica o RecyclerView de que os dados foram alterados.
+     * 
+     * @param item O item a ser removido da lista.
+     */
+    public void removeItem(ItemModel item) {
+        items.remove(item);
+        notifyDataSetChanged();
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_layout, parent, false)
-        return ItemViewHolder(view)
+    /**
+     * Cria novas views (invocado pelo layout manager do RecyclerView).
+     *
+     * @param parent O ViewGroup no qual essas novas views serão adicionadas após serem vinculadas a um adaptador.
+     * @param viewType O tipo de view da nova View.
+     * @return Um novo ViewHolder que contém uma View do tipo especificado.
+     */
+    @Override
+    public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_layout, parent, false);
+        return new ItemViewHolder(view);
     }
 
-    override fun getItemCount(): Int = items.size
-
-    override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        val item = items[position]
-        holder.bind(item)
+    /**
+     * Retorna o tamanho da lista de itens.
+     * 
+     * @return O número total de itens na lista.
+     */
+    @Override
+    public int getItemCount() {
+        return items.size();
     }
 
-    class ItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val textView = view.findViewById<TextView>(R.id.textViewItem)
-        val button = view.findViewById<ImageButton>(R.id.imageButton)
+    /**
+     * Substitui o conteúdo de uma view (invocado pelo layout manager do RecyclerView).
+     *
+     * @param holder O ViewHolder que deve ter seu conteúdo atualizado.
+     * @param position A posição dos dados a serem vinculados.
+     */
+    @Override
+    public void onBindViewHolder(ItemViewHolder holder, int position) {
+        ItemModel item = items.get(position);
+        holder.bind(item);
+    }
 
-        fun bind(item: ItemModel) {
-            textView.text = item.name
+    /**
+     * ViewHolder que fornece uma referência para as views para cada item de dados.
+     * Itens complexos podem precisar de mais de uma view por item, e você fornece acesso a todas as views
+     * para um item de dados em um holder de view.
+     */
+    public static class ItemViewHolder extends RecyclerView.ViewHolder {
+        private final TextView textView;
+        private final ImageButton button;
 
-            button.setOnClickListener {
-                item.onRemove(item)
-            }
+        /**
+         * Constrói o ViewHolder, recuperando as instâncias das views que serão usadas.
+         *
+         * @param view A view base que contém outros widgets como TextView e ImageButton.
+         */
+        public ItemViewHolder(View view) {
+            super(view);
+            textView = view.findViewById(R.id.textViewItem);
+            button = view.findViewById(R.id.imageButton);
+        }
+
+        /**
+         * Vincula um item de modelo a este ViewHolder, configurando os textos das views e definindo listeners.
+         *
+         * @param item O modelo de item que será vinculado a este ViewHolder.
+         */
+        public void bind(ItemModel item) {
+            textView.setText(item.getName());
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    item.onRemove(item);
+                }
+            });
         }
     }
 }

@@ -20,8 +20,6 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
 
     /**
      * Adiciona um novo item à lista e notifica o RecyclerView de que os dados foram alterados.
-     * 
-     * @param newItem O novo item a ser adicionado na lista.
      */
     public void addItem(ItemModel newItem) {
         items.add(newItem);
@@ -30,8 +28,6 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
 
     /**
      * Remove um item da lista e notifica o RecyclerView de que os dados foram alterados.
-     * 
-     * @param item O item a ser removido da lista.
      */
     public void removeItem(ItemModel item) {
         items.remove(item);
